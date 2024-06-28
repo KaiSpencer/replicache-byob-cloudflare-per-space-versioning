@@ -26,8 +26,13 @@ export async function getCookie(
 	});
 	console.log("spaceRecord", spaceRecord);
 
-	if (spaceRecord?.version === null || spaceRecord?.version === undefined) {
-		return undefined;
+	if (!spaceRecord || spaceRecord.version === null) {
+		await db.insert(schema.replicacheSpace).values({
+			id: spaceID,
+			version: 1,
+			lastModified: new Date(),
+		});
+		return 1;
 	}
 	return spaceRecord.version;
 }

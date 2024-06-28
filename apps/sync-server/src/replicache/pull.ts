@@ -50,12 +50,8 @@ app.post("/", db, async (c) => {
 		);
 
 		if (spaceRecord.length !== 1) {
-			console.log("space does not exist, creating it");
-			await db.insert(schema.replicacheSpace).values({
-				id: spaceID,
-				version: 0,
-				lastModified: new Date(),
-			});
+			console.log("space does not exist");
+			return c.text("space does not exist");
 		}
 		const currentVersion = spaceRecord?.[0]?.version ?? 0;
 		if (currentVersion === null) {
